@@ -480,6 +480,7 @@ document.getElementById('copy-email').addEventListener('click', function () {
 
 var slidesCache = null;
 document.querySelector('.pres-btn').addEventListener('click', function (e) {
+  if (location.hostname.endsWith('github.io')) return;
   e.preventDefault();
   var v = document.getElementById('viewer'), f = document.getElementById('viewer-frame'), m = document.getElementById('viewer-msg');
   v.hidden = false; document.body.style.overflow = 'hidden';
