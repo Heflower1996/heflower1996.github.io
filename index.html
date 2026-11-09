@@ -163,9 +163,42 @@ footer { color: var(--muted); font-size: 0.86rem; border-top: 1px solid var(--ru
   .plain li { grid-template-columns: 78px minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+.jump { position: fixed; z-index: 40; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, calc(env(safe-area-inset-right, 0px) + 12px)); }
+.jump summary {
+  list-style: none; cursor: pointer; user-select: none;
+  font-weight: 600; font-size: 0.9rem; color: #fff; background: var(--accent);
+  padding: 8px 14px; border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.jump summary::-webkit-details-marker { display: none; }
+.jump summary::after { content: " \25BE"; }
+.jump[open] summary::after { content: " \25B4"; }
+.jump summary:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.jump-list {
+  position: absolute; right: 0; top: calc(100% + 6px); min-width: 220px;
+  display: flex; flex-direction: column; background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 3px; box-shadow: 0 8px 24px rgba(0,0,0,0.16); padding: 6px 0;
+}
+.jump-list a { color: var(--fg); text-decoration: none; padding: 8px 16px; font-size: 0.93rem; }
+.jump-list a:hover, .jump-list a:focus-visible { background: var(--surface); color: var(--accent); outline: none; }
 </style>
 </head>
 <body>
+
+<details class="jump" id="jump-menu">
+  <summary>Sections</summary>
+  <nav class="jump-list" aria-label="Jump to section">
+      <a href="#education">Education &amp; experience</a>
+      <a href="#about">About</a>
+      <a href="#jmp">Job market paper</a>
+      <a href="#research">Research</a>
+      <a href="#presentations">Presentations</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#service">Service &amp; awards</a>
+      <a href="#skills">Skills</a>
+      <a href="#references">References</a>
+  </nav>
+</details>
 
 <div class="wrap">
   <aside class="id">
@@ -463,6 +496,17 @@ document.getElementById('copy-email').addEventListener('click', function () {
   try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
 });
 
+
+var jump = document.getElementById('jump-menu');
+jump.querySelectorAll('a').forEach(function (a) {
+  a.addEventListener('click', function () { jump.open = false; });
+});
+document.addEventListener('click', function (e) {
+  if (jump.open && !jump.contains(e.target)) jump.open = false;
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && jump.open) { jump.open = false; jump.querySelector('summary').focus(); }
+});
 </script>
 </body>
 </html>
