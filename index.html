@@ -107,11 +107,6 @@ p { margin: 0 0 14px; max-width: 68ch; }
 .jmp .more { margin: 14px 0 0; font-size: 0.92rem; }
 .pres-btn { display: inline-block; font-weight: 600; text-decoration: none; background: var(--accent); color: #fff; padding: 7px 14px; border-radius: 2px; }
 .pres-btn:hover { opacity: 0.9; }
-.viewer { position: fixed; inset: 0; z-index: 50; background: #111; display: flex; flex-direction: column; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
-.viewer-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 14px; color: #eee; font-size: 0.88rem; }
-.viewer-bar button { font: inherit; font-weight: 600; cursor: pointer; background: #fff; color: #111; border: 0; border-radius: 2px; padding: 5px 12px; }
-.viewer iframe { flex: 1; width: 100%; border: 0; background: #fff; }
-.viewer-msg { color: #eee; padding: 24px; }
 
 .list { display: flex; flex-direction: column; }
 .item { padding: 16px 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; }
@@ -464,11 +459,6 @@ footer { color: var(--muted); font-size: 0.86rem; border-top: 1px solid var(--ru
   </main>
 </div>
 
-<div class="viewer" id="viewer" hidden>
-  <div class="viewer-bar"><span>Job market paper slides · use the arrow keys to move between slides</span><button type="button" id="viewer-close">Close</button></div>
-  <p class="viewer-msg" id="viewer-msg">Loading slides…</p>
-  <iframe id="viewer-frame" title="Job market paper slides" hidden></iframe>
-</div>
 
 <script>
 document.getElementById('copy-email').addEventListener('click', function () {
@@ -478,29 +468,6 @@ document.getElementById('copy-email').addEventListener('click', function () {
   try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
 });
 
-var slidesCache = null;
-document.querySelector('.pres-btn').addEventListener('click', function (e) {
-  if (location.hostname.endsWith('github.io')) return;
-  e.preventDefault();
-  var v = document.getElementById('viewer'), f = document.getElementById('viewer-frame'), m = document.getElementById('viewer-msg');
-  v.hidden = false; document.body.style.overflow = 'hidden';
-  if (slidesCache) return;
-  m.textContent = 'Loading slides…'; m.hidden = false;
-  fetch(this.getAttribute('href')).then(function (r) {
-    if (!r.ok) throw new Error(r.status);
-    return r.text();
-  }).then(function (t) {
-    slidesCache = t; f.srcdoc = t; f.hidden = false; m.hidden = true; f.focus();
-  }).catch(function () {
-    m.textContent = 'The slides could not be loaded. Please try again later.';
-  });
-});
-document.getElementById('viewer-close').addEventListener('click', function () {
-  document.getElementById('viewer').hidden = true; document.body.style.overflow = '';
-});
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape' && !document.getElementById('viewer').hidden) document.getElementById('viewer-close').click();
-});
 </script>
 </body>
 </html>
