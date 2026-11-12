@@ -3528,4 +3528,13 @@ window.QuartoSupport = function () {
     </script>
     
 
+<!-- henry-math-fix -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script>
+document.querySelectorAll('span.math').forEach(function (el) {
+  try { katex.render(el.textContent.trim(), el, { displayMode: el.classList.contains('display'), throwOnError: false }); } catch (e) {}
+});
+if (window.Reveal && Reveal.layout) Reveal.layout();
+</script>
 </body></html>
