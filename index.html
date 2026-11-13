@@ -125,6 +125,9 @@ p { margin: 0 0 14px; max-width: 68ch; }
 .compact h3 { font-family: var(--sans); font-weight: 500; font-size: 0.98rem; }
 .kind { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-left: 6px; white-space: nowrap; }
 
+.motto { margin: 0 0 10px; font-family: var(--serif); font-size: 1.5rem; line-height: 1.2; color: var(--accent); }
+.motto span { display: block; font-family: var(--sans); font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 2px; }
+#teaching .motto + p { font-size: 1.05rem; line-height: 1.7; }
 .courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 6px 0 22px; }
 .course { border-top: 3px solid var(--accent); padding-top: 12px; }
 .course .score { font-family: var(--serif); font-size: 2rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -387,7 +390,8 @@ footer { color: var(--muted); font-size: 0.86rem; border-top: 1px solid var(--ru
 
     <section id="teaching">
       <h2 class="label">Teaching</h2>
-      <p>I studied at Zamorano University in Honduras, where students learn by doing. I teach the same way: students work with real market data, real farm decisions, and real policy questions.</p>
+      <p class="motto"><em>Labor omnia vincit</em><span>Work conquers all</span></p>
+      <p>I studied at Zamorano University in Honduras, where this motto means students learn by doing. I teach the same way. My students work with real market data, real farm decisions, and real policy questions.</p>
       <p class="slides-link" style="margin:0 0 18px !important"><a href="research-teaching.html" target="_blank" rel="noopener">View my research and teaching presentation, with a classroom case study</a></p>
       <div class="courses">
         <div class="course">
