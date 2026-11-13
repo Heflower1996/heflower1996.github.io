@@ -53,6 +53,19 @@ svg text{font-family:var(--body)}
 .chart .ax{stroke:var(--fg);stroke-width:1.2}
 .chart .gr{stroke:var(--rule);stroke-width:1}
 .chart .mt{fill:var(--muted)}
+.ctip{position:absolute;z-index:20;background:#fff;border:1px solid #888;box-shadow:0 3px 10px rgba(0,0,0,.18);padding:8px 12px;font-size:17px;line-height:1.35;pointer-events:none;white-space:nowrap}
+.ctip b.r{color:#cc0000}
+.cards{display:flex;gap:18px;margin-top:4px}
+.card2{flex:1;background:#eef2f6;border-top:7px solid #3e5c82;border-radius:4px;padding:12px 20px 14px}
+.card2.main{border-top-color:#cc0000;background:#fcf1f1}
+.card2 .kick{display:block;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#777;font-weight:700}
+.card2.main .kick{color:#cc0000}
+.card2 h3{font-family:var(--head);font-size:34px;margin:4px 0 8px}
+.card2 ul{font-size:25px;padding-left:28px}
+.card2 li{margin-bottom:8px}
+.setup{display:flex;gap:14px;margin-top:18px}
+.setup .sb{flex:1;border-left:6px solid #0b1470;background:#eef2f6;padding:8px 16px;font-size:24px}
+.setup .sb .kick{display:block;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:#777;font-weight:700}
 /* map slide */
 #mapslide{padding:26px 40px 0}
 #mapslide h2{font-size:38px;margin:0 0 6px 20px;white-space:nowrap}
@@ -151,7 +164,7 @@ svg text{font-family:var(--body)}
   <ul>
     <li class="frag"><strong>U.S. beef exports</strong>, UN Comtrade, annual, 1996–2019, in dollars and kilograms</li>
     <li class="frag"><strong>Two products:</strong> HS 0201 fresh or chilled beef and HS 0202 frozen beef</li>
-    <li class="frag"><strong>35 countries</strong> with a documented reopening after the ban; <strong>33 no-reopening countries</strong> with no documented closure followed by a reopening</li>
+    <li class="frag"><strong>35 countries</strong> with a documented reopening after the ban; <strong>33 countries with no announced ban or reopening</strong></li>
     <li class="frag">Missing flows are coded as zero. All 174 ambiguous zeros were checked against U.S. Census records and matched.</li>
     <li class="frag">Reopening dates come from USDA, USTR and other official sources; nine markets rely on industry and trade sources.</li>
   </ul>
@@ -161,18 +174,23 @@ svg text{font-family:var(--body)}
 <section class="slide" data-t="When markets reopened" style="padding-left:40px;padding-right:40px">
   <h2>When did markets reopen?</h2>
   <div id="cohort" class="chart" style="height:400px"></div>
-  <p class="note" style="margin-top:10px">Treatment is the year of the <strong>first documented reopening</strong>, partial reopenings included. A December reopening is coded to the next year. Later closures (Japan, Indonesia, Saudi Arabia) are not modeled. Source: Table 3 (34 frozen and 32 fresh destinations in the estimation sample).</p>
+  <p class="note" style="margin-top:10px">Treatment is the year of the <strong>first documented reopening</strong>, partial reopenings included. A December reopening is coded to the next year. Later closures (Japan, Indonesia, Saudi Arabia) are not modeled. Source: Table 3 (34 frozen and 32 fresh destinations in the estimation sample). Oman (2005) and South Africa (2016) are in frozen only: before the ban they bought U.S. fresh beef in fewer than 4 of the years 1996–2003.</p>
 </section>
 
 <!-- 6 -->
 <section class="slide" data-t="Empirical strategy">
   <h2>Empirical strategy</h2>
-  <ul>
-    <li class="frag"><strong>Callaway–Sant’Anna DiD.</strong> Built for staggered timing. Each reopening cohort is compared with markets that had not yet reopened and with the no-reopening countries.</li>
-    <li class="frag"><strong>Synthetic DiD.</strong> Robustness check. The counterfactual is a weighted mix of the no-reopening countries (33 for frozen, 16 for fresh), with weights on countries and on years.</li>
-    <li class="frag">Outcome is log(1 + export value). Event window runs from 10 years before to 5 years after reopening, and the sample ends in 2019.</li>
-    <li class="frag">Results are reported for all markets, the Americas, and the rest of the world. Margins are estimated separately.</li>
-  </ul>
+  <div class="cards">
+    <div class="card2 main frag"><span class="kick">Main estimator</span><h3>Callaway–Sant’Anna DiD</h3>
+      <ul><li>Built for <strong>staggered</strong> reopening dates</li><li>Compares each reopening cohort with markets <strong>not yet reopened</strong> and with <strong>no announced ban or reopening</strong></li></ul></div>
+    <div class="card2 frag"><span class="kick">Robustness</span><h3>Synthetic DiD</h3>
+      <ul><li>Builds a <strong>weighted control</strong> from countries with no announced ban or reopening (33 for frozen, 16 for fresh)</li><li>Weights on both <strong>countries and years</strong></li></ul></div>
+  </div>
+  <div class="setup frag">
+    <div class="sb"><span class="kick">Outcome</span>log(1 + export value)</div>
+    <div class="sb"><span class="kick">Event window</span><strong>−10 to +5</strong> years; sample ends 2019</div>
+    <div class="sb"><span class="kick">Samples</span><strong>All markets</strong> · <strong>Americas</strong> · <strong>Rest of world</strong>; margins separately</div>
+  </div>
 </section>
 
 <!-- 7 -->
@@ -225,7 +243,7 @@ svg text{font-family:var(--body)}
 <section class="slide" data-t="U.S. share of world exports" style="padding-left:40px;padding-right:40px">
   <h2>The U.S. share of world beef exports</h2>
   <div id="world" class="chart" style="height:380px"></div>
-  <p style="font-size:25px;line-height:1.3;margin:6px 0 0">The U.S. share fell from <strong>19.5%</strong> to <strong>2.8%</strong> in 2004, when the United States dropped from first to eleventh. By 2019 it was <strong>13.3%</strong>. Brazil and India took most of the 6.2 points that did not come back.</p>
+  <p style="font-size:23px;line-height:1.3;margin:6px 0 0">The U.S. share fell from <strong>19.5%</strong> to <strong>2.8%</strong> in 2004, when the United States dropped from first to eleventh. By 2019 it was <strong>13.3%</strong>. Brazil and India took most of the 6.2 points that did not come back. Meanwhile the world market grew <strong>3.6 times</strong>, from $14.4B a year (2000–03) to $51.9B (2019): U.S. sales recovered, but the United States ended <strong>second</strong>, behind Australia (14.5%).</p>
 </section>
 
 <!-- 12 map -->
@@ -255,9 +273,9 @@ svg text{font-family:var(--body)}
 <!-- 14 -->
 <section class="slide" data-t="What it means">
   <h2>What it means</h2>
-  <ul style="font-size:32px">
-    <li class="frag">Reopening restored U.S. <strong>sales</strong>: exports are about two and a half times their pre-ban dollar level.</li>
-    <li class="frag">It only partly restored the U.S. <strong>position</strong>. The combined U.S. share of Japan, South Korea and Hong Kong peaked at <strong>51.0%</strong> in 2018, against 58.5% before the ban.</li>
+  <ul style="font-size:28px">
+    <li class="frag">Reopening restored U.S. <strong>sales</strong>: exports are about two and a half times their pre-ban dollar level. <strong>Fresh:</strong> more markets buy (+28 pp); <strong>frozen:</strong> larger volumes (+240%).</li>
+    <li class="frag">It only partly restored the U.S. <strong>position</strong>. The combined U.S. share of Japan, South Korea and Hong Kong peaked at <strong>51.0%</strong> in 2018, against 58.5% before the ban. Worldwide, the market grew 3.6 times, but the U.S. share is <strong>13.3%</strong> against 19.5%.</li>
     <li class="frag">The <strong>reopening date matters</strong>. The frozen beef result changes from significant to not significant when dates move from industry reports to first documented reopening.</li>
     <li class="frag">Success after an animal-disease shock should be judged by whether the exporter regains its place in the market, not only by whether markets formally reopen.</li>
   </ul>
@@ -308,23 +326,34 @@ function scale(d0,d1,r0,r1){return v=>r0+(v-d0)*(r1-r0)/(d1-d0)}
 
 function cohortChart(){
   const host=$("#cohort"),W=1060,H=400,svg=svgIn(host,W,H);svg.classList.add("chart");
+  host.style.position="relative";
+  const tip=document.createElement("div");tip.className="ctip";tip.hidden=true;host.appendChild(tip);
   const yrs=[2004,2005,2006,2007,2008,2009,2011,2012,2014,2015,2016,2019];
   const fro=[3,6,6,2,2,2,1,1,1,2,7,1],fre=[3,5,6,2,2,2,1,1,1,2,6,1];
+  const both={2004:["Indonesia","Mexico","Saudi Arabia"],2005:["Chile","Jamaica","Kuwait","Philippines","Thailand"],2006:["Colombia","Hong Kong","Japan","Malaysia","Singapore","South Korea"],2007:["Costa Rica","Panama"],2008:["Barbados","Qatar"],2009:["Peru","Saint Kitts and Nevis"],2011:["United Arab Emirates"],2012:["El Salvador"],2014:["Ecuador"],2015:["Saint Lucia","Viet Nam"],2016:["Brazil","Egypt","Guatemala","Israel","Lebanon","New Zealand"],2019:["Australia"]};
+  const only={2005:["Oman","1 year"],2016:["South Africa","2 years"]};
   const L=60,R=20,T=40,B=70,pw=W-L-R,ph=H-T-B,y=scale(0,8,T+ph,T);
   for(let v=0;v<=8;v+=2){E("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),class:v?"gr":"ax"},svg);E("text",{x:L-10,y:y(v)+7,"text-anchor":"end","font-size":20,class:"mt"},svg,v)}
   E("text",{x:L-46,y:T+ph/2,"font-size":20,class:"mt",transform:`rotate(-90 ${L-46} ${T+ph/2})`,"text-anchor":"middle"},svg,"Countries in cohort");
   const step=pw/yrs.length,bw=step*0.36;
+  const show=(html,x,yy)=>{tip.innerHTML=html;tip.hidden=false;const r=host.getBoundingClientRect(),s=r.width/W;tip.style.left=Math.min(x*s+10,r.width-300)+"px";tip.style.top=Math.max(yy*s-10,0)+"px"};
   yrs.forEach((yr,i)=>{
-    const cx=L+step*(i+.5);
-    [[fro[i],cx-bw-2,BLUE],[fre[i],cx+2,RED]].forEach(([v,x,c])=>{
-      E("rect",{x,y:y(v),width:bw,height:y(0)-y(v),fill:c},svg);
+    const cx=L+step*(i+.5),o=only[yr],list=both[yr].join("<br>");
+    const lab=(k,n)=>`<b>${k}, ${yr}: ${n} ${n==1?"country":"countries"}</b><br>`;
+    const fh=lab("Frozen",fro[i])+list+(o?`<br><b class="r">+ ${o[0]} (frozen only)</b>`:"");
+    const rh=lab("Fresh",fre[i])+list+(o?`<br><b class="r">${o[0]} is missing:</b> U.S. fresh beef in only ${o[1]}<br>of 1996–2003; the sample needs at least 4,<br>so it is in frozen only`:"");
+    [[fro[i],cx-bw-2,BLUE,fh,false],[fre[i],cx+2,RED,rh,!!o]].forEach(([v,x,c,h,mark])=>{
+      const r=E("rect",{x,y:y(v),width:bw,height:y(0)-y(v),fill:c,stroke:mark?"#8B0000":"none","stroke-width":mark?3:0,style:"cursor:pointer"},svg);
+      r.addEventListener("mouseenter",()=>show(h,x+bw,y(v)));r.addEventListener("mouseleave",()=>{tip.hidden=true});
       E("text",{x:x+bw/2,y:y(v)-6,"text-anchor":"middle","font-size":18},svg,v)});
+    if(o)E("text",{x:cx,y:y(fro[i])-30,"text-anchor":"middle","font-size":16,style:"fill:#cc0000","font-weight":700},svg,`${o[0]}: frozen only`);
     E("text",{x:cx,y:T+ph+28,"text-anchor":"middle","font-size":21},svg,yr);
   });
   E("rect",{x:W-300,y:6,width:16,height:16,fill:BLUE},svg);E("text",{x:W-278,y:20,"font-size":20},svg,"Frozen beef");
   E("rect",{x:W-160,y:6,width:16,height:16,fill:RED},svg);E("text",{x:W-138,y:20,"font-size":20},svg,"Fresh beef");
   E("text",{x:L+pw/2,y:H-8,"text-anchor":"middle","font-size":20,class:"mt"},svg,"First documented reopening year");
 }
+
 
 function forestChart(){
   const host=$("#forest"),W=1060,H=360,svg=svgIn(host,W,H);svg.classList.add("chart");
