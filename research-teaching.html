@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research, Teaching, and a Classroom Case Study</title>
+<style>
+html,body{margin:0;height:100%;background:#fff;overflow:hidden;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#1a1a1a}
+.reveal{font-size:28px}
+.slides{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center}
+.slides>section{position:absolute;inset:0;box-sizing:border-box;padding:43px 77px;opacity:0;pointer-events:none;
+  transform:translateX(60px);transition:opacity .5s,transform .5s}
+.slides>section.past{transform:translateX(-60px)}
+.slides>section.present{opacity:1;pointer-events:auto;transform:none}
+.reveal h2{font-size:1.5em;margin-top:0}
+.fragment{opacity:0;transform:translateY(24px);transition:opacity .5s,transform .5s}
+.fragment.fade-right{transform:translateX(-30px)}
+.fragment.fade-in{transform:none}
+.fragment.visible{opacity:1;transform:none}
+.card.fragment.visible:hover{transform:translateY(-6px)}
+#progress{position:fixed;left:0;bottom:0;height:5px;background:#CC0000;transition:width .4s;z-index:40}
+#nav{position:fixed;right:18px;bottom:16px;z-index:40;display:flex;gap:8px;align-items:center;font-size:15px;color:#666}
+#nav button{font:inherit;width:38px;height:38px;border-radius:50%;border:2px solid #CC0000;background:#fff;color:#CC0000;cursor:pointer}
+#nav button:hover{background:#CC0000;color:#fff}
+/*-- scss:defaults --*/
+#CC0000: #CC0000;
+
+/*-- scss:rules --*/
+.reveal .slides section { text-align: left; }
+.reveal h2 { border-left: 10px solid #CC0000; padding-left: 18px; margin-bottom: 0.6em; }
+.reveal .muted { color: #666; }
+.reveal .red { color: #CC0000; font-weight: 700; }
+
+/* header on every slide except the title */
+.ttu-header { position: fixed; top: 14px; right: 22px; z-index: 30; display: flex; align-items: center; gap: 12px;
+  font-size: 15px; color: #555; transition: opacity .4s; }
+.ttu-header img { height: 46px; }
+.ttu-header.hide { opacity: 0; }
+
+/* title slide */
+.ttl { display: flex; align-items: center; justify-content: space-between; height: 600px; }
+.ttl-left { border-left: 16px solid #CC0000; padding-left: 32px; max-width: 860px; }
+.ttl-left .ttl-h { display: block; font-weight: 700; font-size: 2.1em; line-height: 1.1; margin: 0 0 .5em 0; text-transform: none; }
+.ttl-left .who { font-size: 1.15em; font-weight: 700; margin: 0; }
+.ttl-left p { margin: .15em 0; font-size: .8em; }
+.ttl-left .aff { color: #555; }
+.ttl-right img { width: 240px; }
+
+/* cards */
+.cards { display: grid; gap: 22px; }
+.cards.two { grid-template-columns: 1fr 1fr; }
+.cards.three { grid-template-columns: 1fr 1fr 1fr; }
+.cards.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.card { background: #f6f6f6; border-top: 6px solid #CC0000; border-radius: 6px; padding: 16px 20px;
+  font-size: .68em; line-height: 1.35; transition: transform .25s, box-shadow .25s; }
+.cards.tight .card { font-size: .58em; }
+.cards.solve { gap: 16px; }
+.cards.solve .card { font-size: .64em; padding: 10px 20px; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 10px 22px rgba(0,0,0,.15); }
+.card h3 { font-size: 1.25em; margin: 0 0 .4em 0; text-transform: none; }
+.card p { margin: .35em 0; }
+.card .from { color: #666; border-top: 1px solid #ddd; padding-top: .4em; margin-top: .6em; }
+.card.dark { background: #1a1a1a; color: #fff; border-top-color: #CC0000; }
+.card.dark h3 { color: #fff; }
+.card ul { margin: .2em 0 0 1em; padding: 0; }
+.card li { margin: .25em 0; }
+.card li span { color: #777; font-size: .88em; }
+
+.lead { font-size: .9em; margin-bottom: .7em; }
+.strip { margin-top: 20px; font-size: .68em; background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 6px; }
+.strip b { color: #ff6b6b; }
+
+.scores { display: flex; gap: 22px; margin-top: 20px; align-items: center; font-size: .68em; }
+.score { display: flex; align-items: baseline; gap: 10px; }
+.score .num { font-size: 2.6em; font-weight: 700; color: #CC0000; }
+
+/* case study */
+.case { display: grid; grid-template-columns: 560px 1fr; gap: 28px; align-items: start; }
+.case svg { width: 560px; height: 380px; }
+.case .panel { font-size: .66em; }
+.case input[type=range] { width: 100%; accent-color: #CC0000; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
+.tile { background: #f6f6f6; border-radius: 6px; padding: 8px 10px; }
+.tile small { display: block; color: #666; }
+.tile b { font-size: 1.4em; }
+.meter { height: 14px; background: #e6e6e6; border-radius: 7px; overflow: hidden; }
+.meter div { height: 100%; background: #CC0000; width: 50%; transition: width .15s; }
+#verdict { margin: 10px 0; padding: 10px 12px; border-left: 6px solid #CC0000; background: #fff4f4; min-height: 3.6em; }
+.case button, .goods button { font: inherit; border: 2px solid #CC0000; background: #fff; color: #CC0000;
+  border-radius: 6px; padding: 6px 14px; cursor: pointer; transition: all .2s; }
+.case button:hover, .goods button:hover { background: #CC0000; color: #fff; }
+.goods { display: flex; gap: 8px; align-items: center; margin-top: 12px; font-size: .54em; flex-wrap: wrap; }
+.goods button.shown { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+
+.close-big { font-size: 1.25em; font-weight: 700; line-height: 1.25; max-width: 1000px; }
+.contact { margin-top: 1.2em; font-size: .75em; color: #555; }
+
+/* discussion questions */
+.qgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.qcard { background: #f6f6f6; border-top: 6px solid #CC0000; border-radius: 6px; padding: 14px 20px; font-size: .64em; line-height: 1.35; }
+.qcard summary { cursor: pointer; list-style: none; }
+.qcard summary::-webkit-details-marker { display: none; }
+.qcard summary::after { content: "Click for the answer"; display: block; margin-top: .6em; color: #CC0000; font-weight: 700; }
+.qcard[open] summary::after { content: "Answer"; color: #ff6b6b; }
+.qcard[open] { background: #1a1a1a; color: #fff; }
+.qcard p { margin: .4em 0 0 0; }
+
+</style></head><body>
+<div class="reveal"><div class="slides">
+<section class="title-custom">
+<div class="ttl">
+<div class="ttl-left">
+<p><span class="ttl-h">Research, Teaching, and a Classroom Case
+Study</span></p>
+<p><span class="who">Henry Portillo, PhD Candidate</span></p>
+<p>Advisor: Dr. Modhurima Amin</p>
+<p><span class="aff">Department of Agricultural and Applied
+Economics</span></p>
+<p><span class="aff">Davis College of Agricultural Sciences &amp;
+Natural Resources</span></p>
+<p><span class="aff">Texas Tech University</span></p>
+</div>
+<div class="ttl-right">
+<p><img src="logo.png" alt="" onerror="this.remove()"></p>
+</div>
+</div>
+</section>
+<section class=""><h2 id="where-my-research-is-going">Where my research is going</h2>
+<div class="lead">
+<p>One question: how do markets and the people in them respond when
+conditions change?</p>
+</div>
+<div class="cards three tight">
+<div class="card fragment fade-up">
+<h3 id="stream-1-shocks-market-adjustment-and-resilience">Stream 1:
+Shocks, market adjustment, and resilience</h3>
+<p>How disease outbreaks, geopolitical events, trade disruptions, and
+policy changes affect prices, market access, and producer outcomes.</p>
+<div class="from">
+<p><strong>Builds on:</strong> machine learning forecasts of U.S. meat
+exports (LSTM and ANN against PPML), and the recovery of U.S. beef
+exports after the 2003 BSE outbreak.</p>
+</div>
+</div>
+<div class="card fragment fade-up">
+<h3 id="stream-2-new-agricultural-technologies">Stream 2: New
+agricultural technologies</h3>
+<p>What drives adoption of precision technologies and AI, how producers
+value the information they provide, and how that changes production and
+management decisions.</p>
+<div class="from">
+<p><strong>Builds on:</strong> the adoption and economic value of AI in
+cattle ranching.</p>
+</div>
+</div>
+<div class="card fragment fade-up">
+<h3
+id="stream-3-consumer-theory-willingness-to-pay-and-food-security">Stream
+3: Consumer theory, willingness to pay, and food security</h3>
+<p>How buyers value product attributes and information, what they are
+willing to pay, and how food access and prices shape household food
+security.</p>
+<div class="from">
+<p><strong>Builds on:</strong> Mexican livestock producers’ willingness
+to pay for U.S. sorghum, and food deserts and local solutions in
+Texas.</p>
+</div>
+</div>
+</div>
+<div class="strip fragment fade-in">
+<p><strong>Methods:</strong> econometrics, causal inference, machine
+learning.   <strong>Output:</strong> papers, Extension publications,
+grants.</p>
+</div>
+</section>
+<section class=""><h2 id="teaching-philosophy">Teaching philosophy</h2>
+<div class="lead">
+<p>I guide students toward their goals and build critical thinking and
+independent problem solving.</p>
+</div>
+<div class="cards four">
+<div class="card fragment fade-up">
+<h3 id="student-focused">Student focused</h3>
+<p>I check in with students every two weeks and adjust while the course
+is still running. In office hours I first ask how they learn best.</p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="real-world-cases">Real-world cases</h3>
+<p>Egg salmonella outbreak, toilet paper shortages, concert ticket
+prices, and my own sorghum research to teach demand and prices.</p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="story-first">Story first</h3>
+<p>I open with a story students already care about, then connect it to
+the formal concept and let them apply it on their own.</p>
+</div>
+<div class="card dark fragment fade-up">
+<h3 id="ai-used-responsibly">AI, used responsibly</h3>
+<p>AI builds the what-if pricing scenarios. Students judge if the answer
+makes economic sense. In-class work carries more weight.</p>
+</div>
+</div>
+<div class="scores fragment fade-in">
+<div class="score">
+<p><span class="num" data-to="4.0">4.0</span> of 5, Agribusiness
+Marketing</p>
+</div>
+<div class="score">
+<p><span class="num" data-to="4.1">4.1</span> of 5, Fundamentals of
+Agricultural and Applied Economics</p>
+</div>
+</div>
+</section>
+<section class=""><h2 id="courses-i-can-teach">Courses I can teach</h2>
+<div class="cards three">
+<div class="card fragment fade-right">
+<h3 id="taught-as-lead-instructor">Taught as lead instructor</h3>
+<ul>
+<li>Agribusiness Marketing</li>
+<li>Fundamentals of Agricultural and Applied Economics</li>
+</ul>
+</div>
+<div class="card fragment fade-right">
+<h3 id="supported-as-teaching-assistant">Supported as teaching
+assistant</h3>
+<ul>
+<li>Agricultural Statistics</li>
+<li>Applied Regression</li>
+<li>Agribusiness Analytics</li>
+<li>Statistical Methods in Agricultural Research</li>
+<li>Agribusiness Finance</li>
+</ul>
+</div>
+<div class="card dark fragment fade-right">
+<h3 id="ready-to-teach">Ready to teach</h3>
+<ul>
+<li>Microeconomics</li>
+<li>Introduction to Macroeconomics</li>
+<li>Statistics</li>
+<li>Econometrics</li>
+<li>Research Methods</li>
+<li>Mathematical Economics</li>
+<li>Introduction to Machine Learning</li>
+<li>Marketing</li>
+</ul>
+</div>
+</div>
+<div class="strip fragment fade-in">
+<p><strong>Why these:</strong> I have led the principles and marketing
+courses, supported the statistics and regression sequence, and I use
+econometrics, causal inference, and machine learning in my own research
+every day.</p>
+</div>
+</section>
+<section class=""><h2 id="case-study-pricing-a-concert-ticket">Case study: pricing a
+concert ticket</h2>
+<div class="case">
+  <svg viewBox="0 0 560 380">
+    <rect id="revBox" fill="#CC0000" opacity="0.18"></rect>
+    <line x1="70" y1="330" x2="540" y2="330" stroke="#1a1a1a" stroke-width="2"></line>
+    <line x1="70" y1="30" x2="70" y2="330" stroke="#1a1a1a" stroke-width="2"></line>
+    <line x1="70" y1="40" x2="300" y2="185" stroke="#CC0000" stroke-width="4"></line>
+    <line x1="300" y1="185" x2="530" y2="330" stroke="#777" stroke-width="4"></line>
+    <circle cx="300" cy="185" r="5" fill="#1a1a1a"></circle>
+    <text x="175" y="95" font-size="15" fill="#CC0000">elastic</text>
+    <text x="310" y="178" font-size="15" fill="#1a1a1a">unit elastic</text>
+    <text x="435" y="255" font-size="15" fill="#777">inelastic</text>
+    <text x="305" y="368" font-size="15" text-anchor="middle">Tickets sold</text>
+    <text x="22" y="185" font-size="15" text-anchor="middle" transform="rotate(-90 22 185)">Price ($)</text>
+    <text x="62" y="45" font-size="13" text-anchor="end">200</text>
+    <text x="62" y="190" font-size="13" text-anchor="end">100</text>
+    <text x="300" y="348" font-size="13" text-anchor="middle">10,000</text>
+    <text x="530" y="348" font-size="13" text-anchor="middle">20,000</text>
+    <circle id="dot" r="10" fill="#CC0000" stroke="#fff" stroke-width="3"></circle>
+  </svg>
+  <div class="panel">
+    <div>Ticket price: <b id="tP"></b> &nbsp; <button id="play">Play the price sweep</button></div>
+    <input type="range" id="price" min="20" max="180" step="5" value="60" data-prevent-swipe>
+    <div class="tiles">
+      <div class="tile"><small>Tickets sold</small><b id="tQ"></b></div>
+      <div class="tile"><small>Elasticity</small><b id="tE"></b></div>
+      <div class="tile"><small>Revenue</small><b id="tR"></b></div>
+    </div>
+    <div class="meter"><div id="bar"></div></div>
+    <div id="verdict"></div>
+    <div class="muted">Illustrative demand: Q = 20,000 − 100P. The question for the class: the artist wants more revenue. Do we raise or lower the price?</div>
+  </div>
+</div>
+<div class="goods">
+  <b>Your turn. Elastic or inelastic?</b>
+  <button data-a="inelastic">Eggs</button>
+  <button data-a="inelastic">Gasoline this week</button>
+  <button data-a="elastic">Steak dinner at a restaurant</button>
+  <button data-a="elastic">One brand of bottled water</button>
+</div>
+</section>
+<section class=""><h2 id="how-to-solve-it">How to solve it</h2>
+<div class="cards two solve">
+<div class="card fragment fade-up">
+<h3 id="start-from-demand">1. Start from demand</h3>
+<p>Q = 20,000 − 100P</p>
+<p>At a price of $60: Q = 20,000 − 100(60) = <strong>14,000
+tickets</strong></p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="compute-the-elasticity">2. Compute the elasticity</h3>
+<p>Elasticity = % change in tickets ÷ % change in price</p>
+<p>Try it: raise the price 10%, from $60 to $66. Tickets fall 4.3%, from
+14,000 to 13,400.</p>
+<p>E = −4.3% ÷ 10% = <strong>−0.43</strong></p>
+<p>Tickets fall less than the price rises, so demand is
+<strong>inelastic</strong>. Revenue goes up, from $840,000 to $884,400.
+Raise the price.</p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="find-the-best-price">3. Find the best price</h3>
+<p>Revenue = P × Q = 20,000P − 100P²</p>
+<p>Revenue stops growing when 20,000 − 200P = 0, so <strong>P =
+$100</strong></p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="check-the-answer">4. Check the answer</h3>
+<p>At $100: Q = 10,000, E = −1.00, revenue =
+<strong>$1,000,000</strong></p>
+<p>At $60 or at $140 revenue is only $840,000.</p>
+</div>
+</div>
+<div class="strip fragment fade-in">
+<p><strong>The rule:</strong> inelastic, raise the price. Elastic, lower
+the price. Revenue is highest where demand is unit elastic.</p>
+</div>
+</section>
+<section class=""><h2 id="what-do-you-think">What do you think?</h2>
+<div class="qgrid">
+  <details class="qcard">
+    <summary><b>1. Substitutes.</b> Another big artist plays in town the same weekend. What do you think happens to our ticket sales if we raise the price?</summary>
+    <p>More substitutes make demand more elastic. Fans can switch to the other show, so a price increase loses more buyers and the best price is lower.</p>
+  </details>
+  <details class="qcard">
+    <summary><b>2. Time.</b> Gasoline prices jump this week. Do you think people drive less this week? What about two years from now?</summary>
+    <p>This week people still have to get to work, so demand is inelastic. With time they can change cars, routes, or jobs, so demand becomes more elastic.</p>
+  </details>
+  <details class="qcard">
+    <summary><b>3. Needs and wants.</b> Why do you think a grocery store can raise the price of eggs more easily than the price of steak?</summary>
+    <p>Eggs are a staple with few close substitutes and a small share of the budget, so demand is inelastic. Steak is easy to replace with chicken or pork, so demand is elastic.</p>
+  </details>
+  <details class="qcard">
+    <summary><b>4. The farmer.</b> Every farmer has a great harvest and the price falls. Do you think farmers are better off?</summary>
+    <p>Usually not. Demand for most farm products is inelastic, so the price falls by more than the quantity sold rises, and total revenue goes down.</p>
+  </details>
+</div>
+</section>
+<section class=""><h2 id="what-i-bring">What I bring</h2>
+<div class="close-big">
+<p>Research on how agricultural markets respond to change, <span
+class="red">taught through cases students can touch.</span></p>
+</div>
+<div class="cards three">
+<div class="card fragment fade-up">
+<h3 id="research">Research</h3>
+<p>Three streams, one program: shocks and resilience, new technologies,
+and consumers and food security.</p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="teaching">Teaching</h3>
+<p>Principles, marketing, statistics, econometrics, and machine
+learning, built on real markets.</p>
+</div>
+<div class="card fragment fade-up">
+<h3 id="reach">Reach</h3>
+<p>Findings turned into Extension publications and visual tools
+producers can use.</p>
+</div>
+</div>
+<div class="contact">
+<p>Henry J. Flowers Portillo · heflower@ttu.edu ·
+heflower1996.github.io</p>
+</div>
+</section>
+</div></div>
+<div id="progress"></div>
+<div id="nav"><span id="num"></span><button id="prev" aria-label="Previous">&#8592;</button><button id="next" aria-label="Next">&#8594;</button></div>
+<script>
+var Reveal=(function(){
+  var secs=[].slice.call(document.querySelectorAll('.slides>section')),cur=0,subs={};
+  function fire(n){(subs[n]||[]).forEach(function(f){f()})}
+  function show(){
+    secs.forEach(function(s,i){s.classList.toggle('present',i===cur);s.classList.toggle('past',i<cur)});
+    document.getElementById('num').textContent=(cur+1)+' / '+secs.length;
+    document.getElementById('progress').style.width=(cur/(secs.length-1)*100)+'%';
+    try{history.replaceState(null,'','#'+(cur+1))}catch(e){}
+    fire('slidechanged');
+  }
+  function next(){
+    var f=secs[cur].querySelector('.fragment:not(.visible)');
+    if(f){f.classList.add('visible');return}
+    if(cur<secs.length-1){cur++;show()}
+  }
+  function prev(){
+    var v=secs[cur].querySelectorAll('.fragment.visible');
+    if(v.length){v[v.length-1].classList.remove('visible');return}
+    if(cur>0){cur--;show()}
+  }
+  function fit(){
+    var k=Math.min(innerWidth/1280,innerHeight/720);
+    document.querySelector('.slides').style.transform='translate(-50%,-50%) scale('+k+')';
+  }
+  addEventListener('resize',fit);
+  addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT')return;
+    if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();next()}
+    if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();prev()}
+    if(e.key==='f'&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();
+  });
+  document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;
+  var h=parseInt(location.hash.slice(1));if(h>=1&&h<=secs.length)cur=h-1;
+  fit();
+  addEventListener('load',function(){show()});
+  return {on:function(n,f){(subs[n]=subs[n]||[]).push(f)},isReady:function(){return true},getCurrentSlide:function(){return secs[cur]}};
+})();
+</script>
+<div class="ttu-header hide" id="ttuHeader">
+  <span>Department of Agricultural and Applied Economics</span>
+  <img src="logo.png" alt="" onerror="this.remove()">
+</div>
+<script>
+window.addEventListener("load", function () {
+  var head = document.getElementById("ttuHeader");
+  document.querySelector(".reveal").appendChild(head);
+
+  function onSlide() {
+    var s = Reveal.getCurrentSlide();
+    head.classList.toggle("hide", s.classList.contains("title-custom"));
+    if (s.querySelector(".num")) countUp(s);
+  }
+
+  function countUp(slide) {
+    slide.querySelectorAll(".num").forEach(function (el) {
+      var target = parseFloat(el.dataset.to), t0 = null;
+      function step(t) {
+        if (!t0) t0 = t;
+        var k = Math.min((t - t0) / 900, 1);
+        el.textContent = (target * k).toFixed(1);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  Reveal.on("slidechanged", onSlide);
+  if (Reveal.isReady()) onSlide(); else Reveal.on("ready", onSlide);
+
+  // ----- elasticity case study: Q = 20000 - 100 P -----
+  var slider = document.getElementById("price");
+  if (!slider) return;
+  var X0 = 70, Y0 = 330, W = 460, H = 290;
+  function px(q) { return X0 + q / 20000 * W; }
+  function py(p) { return Y0 - p / 200 * H; }
+  function money(v) { return "$" + Math.round(v).toLocaleString("en-US"); }
+
+  function draw() {
+    var p = +slider.value, q = 20000 - 100 * p, rev = p * q, e = -100 * p / q;
+    var box = document.getElementById("revBox");
+    box.setAttribute("x", X0); box.setAttribute("y", py(p));
+    box.setAttribute("width", px(q) - X0); box.setAttribute("height", Y0 - py(p));
+    var dot = document.getElementById("dot");
+    dot.setAttribute("cx", px(q)); dot.setAttribute("cy", py(p));
+    document.getElementById("tP").textContent = "$" + p;
+    document.getElementById("tQ").textContent = q.toLocaleString("en-US");
+    document.getElementById("tE").textContent = e.toFixed(2);
+    document.getElementById("tR").textContent = money(rev);
+    document.getElementById("bar").style.width = (rev / 1000000 * 100) + "%";
+    var a = Math.abs(e), v;
+    if (a > 1.02) v = "<b>Elastic.</b> A 1% higher price sells " + a.toFixed(1) + "% fewer tickets. Raising the price lowers revenue.";
+    else if (a < 0.98) v = "<b>Inelastic.</b> A 1% higher price sells only " + a.toFixed(1) + "% fewer tickets. Raising the price raises revenue.";
+    else v = "<b>Unit elastic.</b> Revenue is at its maximum: $1,000,000. Any price change lowers it.";
+    document.getElementById("verdict").innerHTML = v;
+  }
+  slider.addEventListener("input", draw);
+  draw();
+
+  var timer = null;
+  document.getElementById("play").addEventListener("click", function () {
+    if (timer) return;
+    slider.value = 20;
+    timer = setInterval(function () {
+      slider.value = +slider.value + 5; draw();
+      if (+slider.value >= 180) { clearInterval(timer); timer = null; }
+    }, 90);
+  });
+
+  document.querySelectorAll(".goods button").forEach(function (b) {
+    b.dataset.q = b.textContent;
+    b.addEventListener("click", function () {
+      var on = b.classList.toggle("shown");
+      b.textContent = on ? b.dataset.q + ": " + b.dataset.a : b.dataset.q;
+    });
+  });
+});
+</script>
+
+</body></html>
