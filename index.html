@@ -77,6 +77,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   font: inherit; font-family: var(--sans); font-size: 0.76rem; cursor: pointer;
   border: 1px solid var(--rule); background: transparent; color: var(--muted); border-radius: 2px; padding: 2px 8px;
 }
+.qr { margin: 18px 0 0; display: flex; align-items: center; gap: 12px; }
+.qr img { width: 110px; height: 110px; border: 1px solid var(--rule); border-radius: 3px; background: #fff; }
+.qr figcaption { font-size: 0.82rem; color: var(--muted); line-height: 1.4; max-width: 140px; }
+@media (max-width: 880px) { .qr { display: none; } }
 .id nav { margin-top: 24px; display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--rule); padding-top: 16px; }
 .id nav a { color: var(--fg); text-decoration: none; font-size: 0.92rem; }
 .id nav a:hover { color: var(--accent); }
@@ -221,6 +225,10 @@ footer { color: var(--muted); font-size: 0.86rem; border-top: 1px solid var(--ru
       <a href="https://www.depts.ttu.edu/aaec/people/students/henry-flowers.php" target="_blank" rel="noopener">TTU profile</a>
     </div>
     <div class="email"><span id="em">heflower@ttu.edu</span><button type="button" id="copy-email">Copy</button></div>
+    <figure class="qr">
+      <img src="qr.png" alt="QR code linking to heflower1996.github.io" width="110" height="110">
+      <figcaption>Scan to open this site on your phone</figcaption>
+    </figure>
     <nav aria-label="Sections">
       <a href="#education">Education &amp; experience</a>
       <a href="#about">About</a>
